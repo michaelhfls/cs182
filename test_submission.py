@@ -2,10 +2,15 @@ import json, sys
 import pandas as pd
 
 
-wit
+from simpletransformers.classification import ClassificationModel
+
 def eval(text):
 	# This is where you call your model to get the number of stars output
-	return 1.0
+	# The line below should match the exact line used in the .ipynb when the model was created, including changed hyperparameters
+	# except for the second argument which specifies whether to make a new model or load one from a location (e.g. outputs/)
+	model = ClassificationModel('bert', 'outputs/', num_labels=6, use_cuda=False)
+	predictions, raw_outputs = model.predict([text])
+	return predictions[0]
 
 if len(sys.argv) > 1:
 	validation_file = sys.argv[1]
